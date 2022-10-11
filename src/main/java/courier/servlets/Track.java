@@ -2,6 +2,7 @@ package courier.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,15 +27,20 @@ public class Track extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String tno = request.getParameter("tno");
 		
-		if(CourierDao.getCname(tno)!=null) {
-			String cname = CourierDao.getCname(tno);
-			session.setAttribute("name", cname);
-			response.sendRedirect("ship.jsp");
-		}
-		else {
-			RequestDispatcher rd = request.getRequestDispatcher("track.jsp");
-			rd.include(request, response);
-			out.println("<center><font color = red> Enter Valid Tracking Number </font> </center>");
+		try {
+			if(CourierDao.getCname(tno)!=null) {
+				String cname = CourierDao.getCname(tno);
+				session.setAttribute("name", cname);
+				response.sendRedirect("ship.jsp");
+			}
+			else {
+				RequestDispatcher rd = request.getRequestDispatcher("track.jsp");
+				rd.include(request, response);
+				out.println("<center><font color = red> Enter Valid Tracking Number </font> </center>");
+			}
+		} catch (SQLException | IOException | ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

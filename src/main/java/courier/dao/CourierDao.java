@@ -1,6 +1,7 @@
 package courier.dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -63,7 +64,7 @@ public class CourierDao {
 		
 	}
 	
-	public static String getCname(String tno) {
+	public static String getCname(String tno) throws SQLException{
 		try {
 			String sql = "select * from CourierShipmentDetails where track_no = '"+tno+"'";
             ResultSet rs = Util.getStatement().executeQuery(sql);
